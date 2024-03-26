@@ -72,6 +72,125 @@
     .footer-links a:hover {
       color: #aaa;
     }
+
+
+
+
+.navbar {
+    position: fixed;
+    img {
+        margin: 1em 0 0 1em;
+        width: 200px;
+    }
+}
+
+#mobile-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    @media(min-width: 768px) {
+        display: none;
+    }
+}
+#mobile-menu {
+    background: hsl(213, 76%, 28%);
+}
+#mobile-footer-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+.mobile-link {
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+}
+.mobile-link a {
+    font-size: 16px;
+    color: #fff;
+    text-decoration: none;
+}
+#mobile-footer-close {
+    position: relative;
+}
+#mobile-footer-btn {
+    position: absolute;
+    bottom: 25px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    background-color: #959192;
+    border: none;
+    border-radius: 50%;
+    overflow: hidden;
+    text-indent: 100%;
+    color: transparent;
+    white-space: nowrap;
+    cursor: pointer;
+    &:focus {
+        outline: 0;
+    }
+}
+.mobile-btn-close span,
+.mobile-btn-close span::before {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 18px;
+    top: calc(50% - 9px);
+    right: calc(50% + -2.5px);
+    background-color: #fff;
+    transform: rotate(-90deg);
+    transition: 0.3s ease-out;
+}
+.mobile-btn-close {
+    transition: 1s ease-out;
+    &::focus {
+        transition: 1s ease-out;
+    }
+}
+.mobile-btn-close {
+    span {
+        transform: rotate(45deg);
+        &::before {
+            content: '';
+            transform: rotate(-90deg);
+        }
+    }
+}
+.is-rotating {
+    transform: rotate(180deg);
+}
+.is-rotating-back {
+    transform: rotate(-45deg);
+    background-color: red;
+}
+.mobile-menu-hide {
+    animation: hideFooter 10s forwards;
+}
+.mobile-menu-show {
+    animation: showFooter 1s forwards;
+}
+@keyframes hideFooter {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(1000px);
+        opacity: 0;
+    }
+}
+@keyframes showFooter {
+    0% {
+        transform: translateY(300px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
   </style>
 </head>
 <body>
@@ -84,7 +203,7 @@
         <b>Beauty & Love</b>
       </span>
     </a>
-    <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler d-none d-md-block" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon btn-sm"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -145,6 +264,9 @@
       </ul>
     </div>
   </nav>
+
+
+
   <!-- Modals -->
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -444,6 +566,30 @@
     </div><!-- no space bottom -->
   </footer>
 
+  <footer id="mobile-footer" class="fixed-bottom d-block d-md-none">
+    <div id="mobile-menu">
+      <div id="mobile-footer-container">
+        <div class="mobile-link">
+          <a href="#" class="text-center">My Account</a>
+        </div>
+        <div class="mobile-link">
+          <a href="#" class="text-center">Reviews</a>
+        </div>
+        <div class="mobile-link">
+          <a href="#" class="text-center">Contact Us</a>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-footer-close">
+      <button id="mobile-footer-btn">
+        <div class="mobile-btn-close is-rotating-back">
+          <span></span>
+        </div>
+      </button>
+    </div>
+  </footer>
+
+
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -465,5 +611,28 @@
   </script>
   <!-- Font Awesome JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+  <script>
+    (function ($) {
+        $(function () {
+          // Store menu container
+          var mobileMenu = '#mobile-menu';
+          // Store Trigger
+          var mobileBtn = '#mobile-footer-btn';
+
+          var rotation = '.mobile-btn-close';
+
+          $(mobileBtn).on("click", function (e) {
+            e.stopPropagation();
+            if ($(mobileMenu).hasClass('mobile-menu-hide') || $(rotation).hasClass('is-rotating')) {
+              $(mobileMenu).removeClass("mobile-menu-hide").addClass("mobile-menu-show");
+              $(rotation).removeClass("is-rotating").addClass("is-rotating-back");
+            } else {
+              $(mobileMenu).removeClass("mobile-menu-show").addClass("mobile-menu-hide");
+              $(rotation).removeClass('is-rotating-back').addClass('is-rotating');
+            }
+          });
+        });
+      })(jQuery);
+  </script>
 </body>
 </html>
